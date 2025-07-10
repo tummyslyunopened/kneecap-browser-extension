@@ -276,7 +276,7 @@ function removeWatchedAndAddButton() {
 
     let els = document.querySelectorAll(vidQuery());
     if (hideDismissible) {
-        document.querySelectorAll(dismissibleQuery())[0].style.display='none';
+        document.querySelectorAll(dismissibleQuery()).forEach( (el) => {el.style.display='none';});
     }
 
     let hiddenCount = 0;
