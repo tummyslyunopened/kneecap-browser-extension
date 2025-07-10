@@ -13,10 +13,11 @@ const DEFAULT_SETTINGS = {
     "settings.hide.watched.support.home": true,
     "settings.hide.watched.auto.store": true,
     "settings.hide.premieres": true,
-    "settings.hide.shorts": true,
+    "settings.hide.shorts": false,
+    "settings.hide.dismissible": true,
     "settings.hide.older": true,
     "settings.hide.older.cutoff": "Today",
-    "settings.tweaks": true
+    "settings.tweaks": false
 };
 
 const SETTINGS_KEY = "settings";

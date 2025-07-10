@@ -42,3 +42,7 @@ function headerLogoQuery() {
 function guideButtonQuery() {
     return "#guide-button";
 }
+
+function dismissibleQuery() {
+    return "ytd-rich-shelf-renderer.style-scope > div:nth-child(1)";
+}

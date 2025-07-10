@@ -50,7 +50,7 @@ function buildUI() {
     addHideOlderCutoffSelect();
     addHideAllMenuButton();
     addSettingsButton();
-    if (tweaks) applyUITweaks();
+    //if (tweaks) applyUITweaks();
 
     if (settings["settings.hide.watched.ui.stick.right"])
         addedElems[0].after(...addedElems);
@@ -275,6 +275,9 @@ function removeWatchedAndAddButton() {
     log("Removing watched from feed and adding overlay");
 
     let els = document.querySelectorAll(vidQuery());
+    if (hideDismissible) {
+        document.querySelectorAll(dismissibleQuery())[0].style.display='none';
+    }
 
     let hiddenCount = 0;
 
@@ -346,4 +349,5 @@ function removeUI() {
     }
     hidden = [];
     older = [];
+    document.querySelectorAll(dismissibleQuery())[0].style.display='block';
 }

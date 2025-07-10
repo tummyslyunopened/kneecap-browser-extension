@@ -3,6 +3,7 @@ let older = [];
 let hideWatched = null;
 let hidePremieres = null;
 let hideShorts = null;
+let hideDismissible = null;
 let hideOlder = null;
 let hideOlderCutoff = null;
 let intervalId = null;
@@ -105,6 +106,9 @@ async function initSubs() {
     }
     if (hideShorts == null) {
         hideShorts = settings["settings.hide.shorts"];
+    }
+    if (hideDismissible == null) {
+        hideDismissible = settings["settings.hide.dismissible"];
     }
     if (hideOlder == null) {
         hideOlder = settings["settings.hide.older"];
