@@ -24,5 +24,21 @@ function sectionContentsQuery() {
 }
 
 function fuzzyDateQuery() {
-    return '#metadata-line>span';
+    return "#metadata-line>span";
+}
+
+function searchContainerQuery() {
+    return "ytd-searchbox.style-scope";
+}
+
+function headerCenterQuery() {
+    return "#center";
+}
+
+function headerLogoQuery() {
+    return "#logo";
+}
+
+function guideButtonQuery() {
+    return "#guide-button";
 }
