@@ -15,6 +15,16 @@ function getVideoId(item) {
     }
 }
 
+function getVideoFuzzyDate(item) {
+    let videoFuzzyDate = item.querySelectorAll(fuzzyDateQuery())[1];
+    if (videoFuzzyDate != null) {
+        return videoFuzzyDate.innerText;
+    }
+    else {
+        log("Unable to determine video date")
+    }
+}
+
 function changeMarkWatchedToMarkUnwatched(item) {
     // find Mark as watched button and change it to Unmark as watched
     let metaDataLine = item.querySelector("#" + METADATA_LINE);
@@ -33,6 +43,7 @@ class Video {
         this.videoId = getVideoId(containingDiv);
         this.isStored = watchedVideos['w' + this.videoId];
         this.buttonId = this.isStored ? MARK_UNWATCHED_BTN : MARK_WATCHED_BTN;
+        this.fuzzyDate = getVideoFuzzyDate(containingDiv);
 
         log("Checking video " + this.videoId + " for premiere");
         let thumbOverlay = containingDiv.querySelector("ytd-thumbnail-overlay-time-status-renderer");
@@ -50,6 +61,29 @@ class Video {
             log("Video URL is null - ad.");
             this.isShort = true;
         }
+        log('video ' + this.videoId + " associated with date " + this.fuzzyDate)
+        if (this.fuzzyDate != null) {
+            this.isOlder = false;
+            log(this.fuzzyDate)
+            if (this.fuzzyDate.includes("month") || this.fuzzyDate.includes("year")) {
+                this.isOlder = true;
+            }
+            else if (this.fuzzyDate.includes("weeks") && hideOlderCutoff != "1 Month") {
+                this.isOlder = true;
+            }
+            else if (this.fuzzyDate.includes("day")) {
+                if (hideOlderCutoff == "Today") {
+                    this.isOlder = true;
+                }
+                else if (hideOlderCutoff == "1 Week" && Number(this.fuzzyDate.match(/\d+/)[0]) >= 7) {
+                    this.isOlder = true;
+                }
+            }
+        }
+        else{
+            this.isOlder = null;
+        }
+        log(`isOlder: ${this.isOlder} based on cutoff: ${hideOlderCutoff}`)
     }
 
     hasButton() {
@@ -64,6 +98,16 @@ class Video {
         hidden.push(this.containingDiv);
         this.containingDiv.style.display = 'none';
         this.containingDiv.classList.add(HIDDEN_CLASS);
+    }
+
+    hideOlder() {
+        older.push(this.containingDiv);
+        // if on chronological page, take up space to prevent layout shift
+        this.containingDiv.style.visibility = 'hidden';
+        this.containingDiv.classList.add(OLDER_CLASS);
+        // otherwise if on home page, hide and allow continuation of home page feed
+        if (getCurrentPage() == PAGES.home) this.containingDiv.style.display = 'none';
+        // TODO: support setting toggle for hide behavior on various other pages, like channel pages
     }
 
     markWatched() {

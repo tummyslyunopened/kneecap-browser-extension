@@ -1,7 +1,10 @@
 let hidden = [];
+let older = [];
 let hideWatched = null;
 let hidePremieres = null;
 let hideShorts = null;
+let hideOlder = null;
+let hideOlderCutoff = null;
 let intervalId = null;
 
 function isYouTubeWatched(item) {
@@ -29,6 +32,17 @@ function hideWatchedChanged(event) {
             toggle.classList.add("subs-btn-hide-watched-checked");
             removeWatchedAndAddButton();
         }
+    } catch (e) {
+        logError(e);
+    }
+}
+
+function hideOlderChanged(event) {
+    try {
+        let select = document.getElementById(HIDE_OLDER_CUTOFF_SELECT);
+        hideOlderCutoff = select.value;
+        showOlder();
+        removeWatchedAndAddButton();
     } catch (e) {
         logError(e);
     }
@@ -92,11 +106,17 @@ async function initSubs() {
     if (hideShorts == null) {
         hideShorts = settings["settings.hide.shorts"];
     }
+    if (hideOlder == null) {
+        hideOlder = settings["settings.hide.older"];
+    }
+    if (hideOlderCutoff == null) {
+        hideOlderCutoff = settings["settings.hide.older.cutoff"];
+    }
 
     buildUI();
 
     intervalId = window.setInterval(function () {
-        if (hideWatched) {
+        if (hideWatched || hideOlder) {
             try {
                 removeWatchedAndAddButton();
             } catch (e) {
