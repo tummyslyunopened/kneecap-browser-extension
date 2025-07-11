@@ -1,29 +1,31 @@
 {
-  "description": "Make navigating YouTube's subscription grid easier by hiding watched videos",
-  "short_name": "Better Subs",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Better Subscriptions for YouTube™",
+  "short_name": "Better Subs",
+
   "version": "0.19.2",
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "{5dc6dafa-584e-424a-bf90-1d1d8cfa3caa}",
-      "strict_min_version": "58.0"
-    }
-  },
+  "description": "Make navigating YouTube's subscription grid easier by hiding watched videos",
   "icons": {
     "48": "icons/ic_video_library_black_48dp_1x.png"
+  },
+  "action": {
+    "default_icon": {
+      "48": "icons/ic_video_library_black_48dp_1x.png"
+    }
   },
   "developer": {
     "name": "Oscar Hernandez",
     "url": "https://github.com/OsaSoft"
   },
-  "web_accessible_resources": [
-    "images/*"
-  ],
   "permissions": [
-    "storage",
-    "unlimitedStorage"
+    "storage"
   ],
+  "host_permissions": [
+    "*://*.youtube.com/*"
+  ],
+  "background": {
+    "service_worker": "pages/background.js"
+  },
   "content_scripts": [
     {
       "matches": [
@@ -45,16 +47,19 @@
       "css": [
         "common.css",
         "subs.css"
+
       ]
     }
   ],
-  "background": {
-    "scripts": [
-      "pages/background.js"
-    ]
-  },
+  "web_accessible_resources": [
+    {
+      "resources": ["images/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
   "options_ui": {
     "page": "pages/settings/settings.html",
     "open_in_tab": true
   }
 }
+
